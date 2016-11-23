@@ -1,0 +1,6 @@
+{
+    "botToken": "",
+    "userToken": "",
+    "mongoURL": "mongodb://localhost:27017/db",
+    "host": "http://localhost:$port"
+}
