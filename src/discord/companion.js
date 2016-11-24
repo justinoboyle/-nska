@@ -17,8 +17,11 @@ companion.login(global.config.userToken);
 
 companion.authorizeBot = (botid, owner, admin, cb) => {
   DiscordBot.find({ botid }, (err, users) => {
-    if (err)
+    if (err) {
+      console.error(err);
       return cb("Could not connect to database servers. Please try again later.", null);
+    }
+
     if (users.length > 0)
       return cb("Bot is already authorized on this server. Use `!rembot <id>` to remove the bot before re-adding it.", null);
     let newBot = new DiscordBot({
