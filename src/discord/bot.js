@@ -13,7 +13,7 @@ client.on('message', message => {
             return message.reply('⚠️ **Usage:** `!addbot <id>`');
         let id = args[1];
         try {
-            let usrAcc = message.channel.guild.members.find(val => val.id == bot);
+            let usrAcc = message.channel.guild.members.find(val => val.id == id);
             if (!usrAcc.bot)
                 return message.reply("❌ **Error:** Uhh.. That's a player!");
         }catch(e) { /* Good */ }
