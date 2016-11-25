@@ -12,6 +12,12 @@ client.on('message', message => {
         if (args.length < 2)
             return message.reply('⚠️ **Usage:** `!addbot <id>`');
         let id = args[1];
+        try {
+            let usrAcc = message.channel.guild.members.find(val => val.id == bot);
+            if (!usrAcc.bot)
+                return message.reply("❌ **Error:** Uhh.. That's a player!");
+        }catch(e) { /* Good */ }
+
         global.companion.authorizeBot(args[1], message.author.id, false, (err, res) => {
             if (err)
                 return message.reply(`❌ **Error:** ${err}`);
@@ -27,6 +33,7 @@ client.on('message', message => {
         let bot = args[1];
         if (bot.startsWith("<@") && bot.endsWith(">"))
             bot = bot.substring(2, bot.length - 1);
+
         DiscordBot.find({ botid: bot }, (err, users) => {
             if (err)
                 return;
@@ -36,7 +43,10 @@ client.on('message', message => {
                     return message.reply('❌ **Error:** You are not the owner of that bot.');
                 user.remove();
                 try {
-                    message.channel.guild.members.find(val => val.id == bot).kick()
+                    let usrAcc = message.channel.guild.members.find(val => val.id == bot);
+                    if (!usrAcc.bot)
+                        return message.reply("❌ **Error:** Uhh.. That's a player!");
+                    usrAcc.kick();
                 } catch (e) {
                     return message.reply('❌ **Error:** Could not find that bot.');
                 }
