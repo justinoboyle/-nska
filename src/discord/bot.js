@@ -15,7 +15,7 @@ client.on('message', message => {
         try {
             let usrAcc = message.channel.guild.members.find(val => val.id == id);
             if (!usrAcc.bot)
-                return message.reply("❌ **Error:** Uhh.. That's a player!");
+                return message.reply("❌ **Error:** Uhh.. That's a user!");
         }catch(e) { /* Good */ }
 
         global.companion.authorizeBot(args[1], message.author.id, false, (err, res) => {
@@ -45,7 +45,7 @@ client.on('message', message => {
                 try {
                     let usrAcc = message.channel.guild.members.find(val => val.id == bot);
                     if (!usrAcc.bot)
-                        return message.reply("❌ **Error:** Uhh.. That's a player!");
+                        return message.reply("❌ **Error:** Uhh.. That's a user!");
                     usrAcc.kick();
                 } catch (e) {
                     return message.reply('❌ **Error:** Could not find that bot.');
