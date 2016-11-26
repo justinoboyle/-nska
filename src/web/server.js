@@ -6,10 +6,6 @@ import DiscordBot from './../types/DiscordBot.js';
 const protoRoot = __dirname + "./../../proto/";
 app.set('view engine', 'ejs');
 
-app.use(function(req, res, next) {
-    res.render(protoRoot + '404.ejs', { status: 404, url: req.url });
-    res.render(protoRoot + '404.ejs', { status: 503, url: req.url });
-});
 
 try {
     app.get('/', (req, res) => res.render(protoRoot + 'index.ejs'));
