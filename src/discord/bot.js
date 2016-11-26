@@ -40,8 +40,9 @@ client.on('message', message => {
                 return;
             if (users.length > 0) {
                 let user = users[0];
-                if (user.inviter !== message.author.id)
-                    return message.reply('❌ **Error:** You are not the owner of that bot.');
+                if (!isAdmin(message.author.id))
+                    if (user.inviter !== message.author.id)
+                        return message.reply('❌ **Error:** You are not the owner of that bot.');
                 user.remove();
                 try {
                     let usrAcc = message.channel.guild.members.find(val => val.id == bot);
@@ -93,5 +94,9 @@ client.lookup = (id, cb) => {
         cb({ id: user.id, username: user.username, discriminator: user.discriminator, avatar: user.avatar });
     });
 }
-
+function isAdmin(id) {
+    for (let x of (global.config.admins || []))
+        if (x == id) return true;
+    return false;
+}
 client.login(global.config.botToken);
