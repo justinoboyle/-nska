@@ -9,77 +9,85 @@ try {
     app.get('/', (req, res) => res.render(protoRoot + 'index.ejs'));
 
     app.get('/bot/:reqid', (req, res) => {
-        DiscordBot.find({ botid: req.params.reqid }, (err, users) => {
-            if (err)
-                return res.send("error lol");
-            map(users, (iter, cb) => {
-                global.client.lookup(iter.botid, bot =>
-                    global.client.lookup(iter.inviter, owner => {
-                        if (!bot.avatar) bot.avatar = 'undefined';
-                        if (!owner.avatar) owner.avatar = 'undefined';
-                        cb(false, { id: iter.botid, bot, owner })
-                    }
-                ));
-            },
-                (err, bots) => {
-                    let temp = bots.map((el) => {
-                        return {
-                            id: el.id,
-                            owner: {
-                                id: typeof (el.owner.id !== 'undefined') ? el.owner.id : 'a',
-                                username: typeof (el.owner.username !== 'undefined') ? el.owner.username : 'b',
-                                discriminator: typeof (el.owner.discriminator !== 'undefined') ? el.owner.discriminator : 'c',
-                                avatar: typeof (el.owner.avatar !== 'undefined') ? el.owner.avatar : 'none'
-                            },
-                            bot: {
-                                id: typeof (el.bot.id !== 'undefined') ? el.bot.id : el.id,
-                                username: typeof (el.bot.username !== 'undefined') ? el.bot.username : 'b',
-                                discriminator: typeof (el.bot.discriminator !== 'undefined') ? el.bot.discriminator : 'c',
-                                avatar: typeof (el.bot.avatar !== 'undefined') ? el.bot.avatar : 'none'
-                            }
+        try {
+            DiscordBot.find({ botid: req.params.reqid }, (err, users) => {
+                if (err)
+                    return res.send("error lol");
+                map(users, (iter, cb) => {
+                    global.client.lookup(iter.botid, bot =>
+                        global.client.lookup(iter.inviter, owner => {
+                            if (!bot.avatar) bot.avatar = 'undefined';
+                            if (!owner.avatar) owner.avatar = 'undefined';
+                            cb(false, { id: iter.botid, bot, owner })
                         }
-                    })
-                    res.render(protoRoot + 'botProfile.ejs', { bot: temp[0] });
-                });
-        });
+                        ));
+                },
+                    (err, bots) => {
+                        let temp = bots.map((el) => {
+                            return {
+                                id: el.id,
+                                owner: {
+                                    id: typeof (el.owner.id !== 'undefined') ? el.owner.id : 'a',
+                                    username: typeof (el.owner.username !== 'undefined') ? el.owner.username : 'b',
+                                    discriminator: typeof (el.owner.discriminator !== 'undefined') ? el.owner.discriminator : 'c',
+                                    avatar: typeof (el.owner.avatar !== 'undefined') ? el.owner.avatar : 'none'
+                                },
+                                bot: {
+                                    id: typeof (el.bot.id !== 'undefined') ? el.bot.id : el.id,
+                                    username: typeof (el.bot.username !== 'undefined') ? el.bot.username : 'b',
+                                    discriminator: typeof (el.bot.discriminator !== 'undefined') ? el.bot.discriminator : 'c',
+                                    avatar: typeof (el.bot.avatar !== 'undefined') ? el.bot.avatar : 'none'
+                                }
+                            }
+                        })
+                        res.render(protoRoot + 'botProfile.ejs', { bot: temp[0] });
+                    });
+            });
+        } catch (e) {
+            res.send("An error occurred. Sorry about that.");
+        }
     })
 
     app.get('/bots', (req, res) => {
-        DiscordBot.find({}, (err, users) => {
-            if (err)
-                return res.send("error lol");
-            map(users, (iter, cb) => {
-                global.client.lookup(iter.botid, bot =>
-                    global.client.lookup(iter.inviter, owner => {
-                        if (!bot.avatar) bot.avatar = 'undefined';
-                        if (!owner.avatar) owner.avatar = 'undefined';
-                        cb(false, { id: iter.botid, bot, owner })
-                    }
-
-
-                    ));
-            },
-                (err, bots) => {
-                    let temp = bots.map((el) => {
-                        return {
-                            id: el.id,
-                            owner: {
-                                id: typeof (el.owner.id !== 'undefined') ? el.owner.id : 'a',
-                                username: typeof (el.owner.username !== 'undefined') ? el.owner.username : 'b',
-                                discriminator: typeof (el.owner.discriminator !== 'undefined') ? el.owner.discriminator : 'c',
-                                avatar: typeof (el.owner.avatar !== 'undefined') ? el.owner.avatar : 'none'
-                            },
-                            bot: {
-                                id: typeof (el.bot.id !== 'undefined') ? el.bot.id : el.id,
-                                username: typeof (el.bot.username !== 'undefined') ? el.bot.username : el.id,
-                                discriminator: typeof (el.bot.discriminator !== 'undefined') ? el.bot.discriminator : 'c',
-                                avatar: typeof (el.bot.avatar !== 'undefined') ? el.bot.avatar : 'none'
-                            }
+        try {
+            DiscordBot.find({}, (err, users) => {
+                if (err)
+                    return res.send("error lol");
+                map(users, (iter, cb) => {
+                    global.client.lookup(iter.botid, bot =>
+                        global.client.lookup(iter.inviter, owner => {
+                            if (!bot.avatar) bot.avatar = 'undefined';
+                            if (!owner.avatar) owner.avatar = 'undefined';
+                            cb(false, { id: iter.botid, bot, owner })
                         }
-                    })
-                    res.render(protoRoot + 'botList.ejs', { bots: temp });
-                });
-        });
+
+
+                        ));
+                },
+                    (err, bots) => {
+                        let temp = bots.map((el) => {
+                            return {
+                                id: el.id,
+                                owner: {
+                                    id: typeof (el.owner.id !== 'undefined') ? el.owner.id : 'a',
+                                    username: typeof (el.owner.username !== 'undefined') ? el.owner.username : 'b',
+                                    discriminator: typeof (el.owner.discriminator !== 'undefined') ? el.owner.discriminator : 'c',
+                                    avatar: typeof (el.owner.avatar !== 'undefined') ? el.owner.avatar : 'none'
+                                },
+                                bot: {
+                                    id: typeof (el.bot.id !== 'undefined') ? el.bot.id : el.id,
+                                    username: typeof (el.bot.username !== 'undefined') ? el.bot.username : el.id,
+                                    discriminator: typeof (el.bot.discriminator !== 'undefined') ? el.bot.discriminator : 'c',
+                                    avatar: typeof (el.bot.avatar !== 'undefined') ? el.bot.avatar : 'none'
+                                }
+                            }
+                        })
+                        res.render(protoRoot + 'botList.ejs', { bots: temp });
+                    });
+            });
+        } catch (e) {
+            res.send("An error occurred. Sorry about that.");
+        }
     });
 
     app.get('/api/resolve/:user', (req, res) => global.client.lookup(req.params.user, resp => res.json(resp)));
