@@ -42,11 +42,16 @@ try {
                                 }
                             }
                         })
-                        res.render(protoRoot + 'botProfile.ejs', { bot: temp[0] });
+                        try {
+                            res.render(protoRoot + 'botProfile.ejs', { bot: temp[0] });
+                        } catch (e) {
+                            res.render(protoRoot + '404.ejs', { status: 404, url: req.url });
+                        }
+
                     });
             });
         } catch (e) {
-            res.render(protoRoot + '404.ejs', { status: 404, url: req.url });
+
         }
     })
 
@@ -84,7 +89,11 @@ try {
                                 }
                             }
                         })
-                        res.render(protoRoot + 'botList.ejs', { bots: temp });
+                        try {
+                            res.render(protoRoot + 'botList.ejs', { bots: temp });
+                        } catch (e) {
+                            res.render(protoRoot + '404.ejs', { status: 404, url: req.url });
+                        }
                     });
             });
         } catch (e) {
