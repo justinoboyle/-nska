@@ -71,7 +71,7 @@ try {
                             },
                             bot: {
                                 id: typeof (el.bot.id !== 'undefined') ? el.bot.id : el.id,
-                                username: typeof (el.bot.username !== 'undefined') ? el.bot.username : 'b',
+                                username: typeof (el.bot.username !== 'undefined') ? el.bot.username : el.id,
                                 discriminator: typeof (el.bot.discriminator !== 'undefined') ? el.bot.discriminator : 'c',
                                 avatar: typeof (el.bot.avatar !== 'undefined') ? el.bot.avatar : 'none'
                             }
