@@ -46,13 +46,14 @@ client.on('message', message => {
                 user.remove();
                 try {
                     let usrAcc = message.channel.guild.members.find(val => val.id == bot);
-                    if (!usrAcc.bot)
-                        return message.reply("❌ **Error:** Uhh.. That's a user!");
-                    usrAcc.kick();
+                    let isBot = usrAcc.bot;
+                    if (isBot)
+                        usrAcc.kick();
+
                 } catch (e) {
                     return message.reply('❌ **Error:** Could not find that bot.');
                 }
-                message.reply("✅ **Success!** Bot removed.");
+                message.reply("✅ **Success!** Bot removed. " + (isBot ? "from database only." : ""));
 
             }
         });
