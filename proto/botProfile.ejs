@@ -12,7 +12,7 @@
     </div>
     <div class="media" onclick="window.location.href='/bot/<%= bot.id || 0 %>'" style="cursor: pointer; cursor: hand;">
             <div class="media-left media-middle">
-            <img class="media-object" src="<%= bot.bot.avatar == 'undefined' ? '/api/image/undefined' : (bot.bot.avatar || 'none') %>" alt="..." width="64" height="64" />
+            <img class="media-object" src="<%= bot.bot.id == 'undefined' ? '/api/image/undefined' : ('/api/image/' + bot.bot.id || '/api/image/none') %>" alt="/api/image/undefined" width="64" height="64" />
             </div>
             <div class="media-body">
                 <h4 class="media-heading">
