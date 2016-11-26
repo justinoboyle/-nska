@@ -5,22 +5,34 @@
     <title>NSKA Bot</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous" />
+    <style>
+        .image-cropper {
+            width: 64x;
+            height: 64px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <div class="container">
     <div class="page-header">
-        <h1><%= bot.bot.username || bot.id %><small>#<%= bot.bot.discriminator || "0000" %></h1>
+        <h1>
+            <%= bot.bot.username || bot.id %><small>#<%= bot.bot.discriminator || "0000" %></h1>
     </div>
     <div class="media" onclick="window.location.href='/bot/<%= bot.id || 0 %>'" style="cursor: pointer; cursor: hand;">
             <div class="media-left media-middle">
-            <img class="media-object" onerror="this.src = '/api/image/undefined';" src="<%= bot.bot.id == 'undefined' ? '/api/image/undefined' : ('/api/image/' + bot.bot.id || '/api/image/none') %>" alt="/api/image/undefined" width="64" height="64" />
+            <div class="image-cropper">
+                <img class="media-object" onerror="this.src = '/api/image/undefined';" src="<%= bot.bot.id == 'undefined' ? '/api/image/undefined' : ('/api/image/' + bot.bot.id || '/api/image/none') %>" alt="/api/image/undefined" width="64" height="64" />
+            </div>
             </div>
             <div class="media-body">
                 <h4 class="media-heading">
                     Invited by <%= bot.owner.username || 'unknown' %><small>#<%= bot.owner.discriminator || '0000' %></small>
                 </h4>
-                
-            </div>
+
     </div>
+</div>
 </div>
 
 </html>
