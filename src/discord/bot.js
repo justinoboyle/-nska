@@ -43,7 +43,7 @@ client.on('message', message => {
                 if (!isAdmin(message.author.id))
                     if (user.inviter !== message.author.id)
                         return message.reply('❌ **Error:** You are not the owner of that bot.');
-                
+
                 try {
                     let usrAcc = message.channel.guild.members.find(val => val.id == bot);
                     let isBot = usrAcc.bot;
@@ -54,15 +54,13 @@ client.on('message', message => {
                     try {
                         user.remove();
                         message.reply("✅ **Success!** Bot removed. " + (!isBot ? "from database only." : ""));
-                    }catch(e) {
-                        return message.reply('❌ **Error:** Could not find that bot.');
+                    } catch (e) {
+                        return message.reply("✅ **Success!** Bot removed. " + (!isBot ? "from database only." : ""));
                     }
                     message.reply("✅ **Success!** Bot removed. " + (!isBot ? "from database only." : ""));
-                    
                 }
-                
-                
-
+            } else {
+                return message.reply('❌ **Error:** Could not find that bot.');
             }
         });
     }
