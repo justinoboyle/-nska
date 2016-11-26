@@ -1,6 +1,8 @@
 import Discord from "discord.js";
 import DiscordBot from "./../types/DiscordBot.js";
 import requestify from "requestify";
+
+
 global.companion = new Discord.Client();
 
 companion.on('ready', () => {

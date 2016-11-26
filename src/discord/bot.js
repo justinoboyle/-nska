@@ -1,5 +1,6 @@
 import Discord from "discord.js";
 import DiscordBot from "./../types/DiscordBot.js";
+import UserInfo from "./../types/UserInfo.js";
 global.client = new Discord.Client();
 
 client.on('ready', () => {
@@ -16,7 +17,7 @@ client.on('message', message => {
             let usrAcc = message.channel.guild.members.find(val => val.id == id);
             if (!usrAcc.bot)
                 return message.reply("❌ **Error:** Uhh.. That's a user!");
-        }catch(e) { /* Good */ }
+        } catch (e) { /* Good */ }
 
         global.companion.authorizeBot(args[1], message.author.id, false, (err, res) => {
             if (err)
@@ -73,5 +74,24 @@ client.on('guildMemberAdd', (member) => {
         }
     });
 });
+
+client.lookup = (id, cb) => {
+    UserInfo.find({ id }, (err, users) => {
+        if (err) {
+            console.error(err);
+            return cb("Could not connect to database servers. Please try again later.", null);
+        }
+        let user = {}
+        if (users.length > 0) {
+            user = users[0];
+            if ((Date.now() - user.lastLookup) < 3 * 60 * 60 * 1000)
+                return cb({ id: user.id, username: user.username, discriminator: user.discriminator, avatar: user.avatar });
+        }
+        user = new UserInfo(client.resolver.resolveUser(id));
+        user.lastLookup = Date.now();
+        user.save();
+        cb({ id: user.id, username: user.username, discriminator: user.discriminator, avatar: user.avatar });
+    });
+}
 
 client.login(global.config.botToken);
